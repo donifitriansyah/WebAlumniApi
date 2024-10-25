@@ -108,7 +108,7 @@
                         @if (session('role') === 'admin')
                             {{ session('username') }} <!-- atau properti lain sesuai kebutuhan -->
                         @elseif(session('role') === 'alumni')
-                            {{ session('alumni_name') }}
+                            {{ session('username') }}
                             <!-- Pastikan Anda menyimpan nama alumni di session jika diperlukan -->
                         @elseif(session('role') === 'perusahaan')
                             {{ session('company_name') }} <!-- Simpan nama perusahaan di session jika diperlukan -->

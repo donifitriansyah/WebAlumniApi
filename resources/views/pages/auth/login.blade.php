@@ -56,7 +56,7 @@ Login
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
                             </div> --}}
                             <div class="text-center">
-                                {{-- <a class="small" href="{{ route('register-alumni') }}">Buat Akun Alumni!</a> --}}
+                                <a class="small" href="{{ route('indexAlumni') }}">Buat Akun Alumni!</a>
                             </div>
                             <div class="text-center">
                                 {{-- <a class="small" href="{{ route('register-perusahaan') }}">Buat akun Perusahaan!</a> --}}
@@ -70,4 +70,27 @@ Login
     </div>
 
 </div>
+@if (session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: "{{ session('success') }}",
+        showConfirmButton: true,
+        timer: 3000 // Optional: automatically close the alert after 3 seconds
+    });
+</script>
+@endif
+
+@if ($errors->has('login_error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: "{{ implode(', ', $errors->get('login_error')) }}",
+        showConfirmButton: true,
+        timer: 3000 // Optional: automatically close the alert after 3 seconds
+    });
+</script>
+@endif
 @endsection

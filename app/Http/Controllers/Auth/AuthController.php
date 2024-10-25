@@ -13,7 +13,7 @@ class AuthController extends Controller
 
         // Atau jika Anda menggunakan JWT, Anda dapat memanggil API untuk mencabut token
         $token = $request->session()->get('token');
-        $response = Http::withToken($token)->post('http://127.0.0.1:8000/api/auth/logout');
+        $response = Http::withToken($token)->post('http://127.0.0.1:10/api/auth/logout');
 
         return redirect()->route('login')->with('message', 'You have been logged out successfully.');
     }

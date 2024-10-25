@@ -19,16 +19,19 @@
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul>
-                                            @foreach ($errors->all() as $error)
+                                            @foreach ($errors->get('registration_error') as $error)
                                                 <li>{{ $error }}</li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 @endif
-                                <form class="user" method="POST" action="{{ route('register-alumni') }}">
+
+                                <form class="user" method="POST" action="{{ route('registerAlumni') }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user @error('username') is-invalid @enderror"
+                                        <input type="text"
+                                            class="form-control form-control-user @error('username') is-invalid @enderror"
                                             name="username" value="{{ old('username') }}" placeholder="Username" required>
                                         @error('username')
                                             <span class="invalid-feedback" role="alert">
@@ -37,7 +40,8 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user @error('nim') is-invalid @enderror"
+                                        <input type="text"
+                                            class="form-control form-control-user @error('nim') is-invalid @enderror"
                                             name="nim" value="{{ old('nim') }}" placeholder="NIM" required>
                                         @error('nim')
                                             <span class="invalid-feedback" role="alert">
@@ -87,7 +91,8 @@
                                     <div class="form-group">
                                         <input type="text"
                                             class="form-control form-control-user @error('no_tlp') is-invalid @enderror"
-                                            name="no_tlp" value="{{ old('no_tlp') }}" placeholder="Nomor Telepon" required>
+                                            name="no_tlp" value="{{ old('no_tlp') }}" placeholder="Nomor Telepon"
+                                            required>
                                         @error('no_tlp')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -107,22 +112,19 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Status Field -->
-                                    <!-- <div class="form-group">
-                                        <select class="form-control-user @error('status') is-invalid @enderror"
-                                            name="status" required>
-                                            <option value="">Pilih Status</option>
-                                            <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif
-                                            </option>
-                                            <option value="non-aktif" {{ old('status') == 'non-aktif' ? 'selected' : '' }}>
-                                                Non-Aktif</option>
-                                        </select>
-                                        @error('status')
+                                    <div class="form-group">
+                                        <input type="file"
+                                            class="form-control form-control @error('foto') is-invalid @enderror"
+                                            name="foto" value="{{ old('foto') }}" accept="image/*" placeholder="Foto"
+                                            required>
+                                        @error('foto')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                    </div> -->
+                                    </div>
+
+
 
                                     <!-- Password Field -->
                                     <div class="form-group">
@@ -150,9 +152,6 @@
 
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="{{ route('password.request') }}">Forgot Password?</a>
-                                </div>
-                                <div class="text-center">
                                     <a class="small" href="{{ route('login') }}">Already have an account? Login!</a>
                                 </div>
                             </div>
@@ -162,4 +161,32 @@
             </div>
         </div>
     </div>
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "{{ session('success') }}",
+                showConfirmButton: true,
+                timer: 3000 // Optional: automatically close the alert after 3 seconds
+            });
+        </script>
+    @endif
+
+    @if ($errors->has('registration_error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: "{{ implode(', ', $errors->get('registration_error')) }}",
+                showConfirmButton: true,
+                timer: 3000 // Optional: automatically close the alert after 3 seconds
+            });
+        </script>
+    @endif
+
+    <!-- Include SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @endsection
