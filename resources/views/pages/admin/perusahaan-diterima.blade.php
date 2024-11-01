@@ -32,18 +32,18 @@ Perusahaan
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($activePerusahaan as $perusahaan)
+                            @foreach($perusahaanAktif as $perusahaan)
                             <tr>
-                                <td>{{ $perusahaan->nama_perusahaan }}</td>
-                                <td>{{ $perusahaan->nib }}</td>
-                                <td>{{ $perusahaan->alamat }}</td>
-                                <td>{{ $perusahaan->email_perusahaan }}</td>
-                                <td>{{ $perusahaan->sektor_bisnis }}</td>
-                                <td>{{ $perusahaan->deskripsi_perusahaan }}</td>
-                                <td>{{ $perusahaan->jumlah_karyawan }}</td>
-                                <td>{{ $perusahaan->no_telp }}</td>
-                                <td>{{ $perusahaan->website_perusahaan }}</td>
-                                <td>{{ $perusahaan->status }}</td>
+                                <td>{{ $perusahaan['nama_perusahaan'] }}</td>
+                                <td>{{ $perusahaan['nib'] }}</td>
+                                <td>{{ $perusahaan['alamat'] }}</td>
+                                <td>{{ $perusahaan['email_perusahaan'] }}</td>
+                                <td>{{ $perusahaan['sektor_bisnis'] }}</td>
+                                <td>{{ $perusahaan['deskripsi_perusahaan'] }}</td>
+                                <td>{{ $perusahaan['jumlah_karyawan'] }}</td>
+                                <td>{{ $perusahaan['no_telp'] }}</td>
+                                <td>{{ $perusahaan['website_perusahaan'] }}</td>
+                                <td>{{ $perusahaan['status'] }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -53,12 +53,4 @@ Perusahaan
         </div>
     </div>
 
-@endsection
-
-@section('scripts')
-<script>
-    $(document).ready(function() {
-        $('#dataTable').DataTable();
-    });
-</script>
 @endsection

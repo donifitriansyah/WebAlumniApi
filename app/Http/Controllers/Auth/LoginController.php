@@ -41,7 +41,12 @@ class LoginController extends Controller
             $role = $data['role'];
 
             // Simpan token dan informasi pengguna ke session
-            session(['token' => $token, 'user' => $user, 'role' => $role]);
+            session([
+                'token' => $token,
+                'user' => $user,
+                'role' => $role,
+                'email' => $user['email'] // Make sure to save the username
+            ]);
             if ($role === 'admin') {
                 return redirect()->route('dashboardAdmin')->with('success', $data['message']);
             } elseif ($role === 'alumni') {

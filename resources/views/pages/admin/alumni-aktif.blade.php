@@ -20,7 +20,7 @@ Dashboard
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>ID User</th>
+                                <th>No</th>
                                 <th>Nama Alumni</th>
                                 <th>NIM</th>
                                 <th>Tanggal Lahir</th>
@@ -33,14 +33,14 @@ Dashboard
                         <tbody>
                             @foreach($alumniAktif as $alumni)
                             <tr>
-                                <td>{{ $alumni->id_user }}</td>
-                                <td>{{ $alumni->nama_alumni }}</td>
-                                <td>{{ $alumni->nim }}</td>
-                                <td>{{ $alumni->tanggal_lahir }}</td>
-                                <td>{{ $alumni->alamat }}</td>
-                                <td>{{ $alumni->no_tlp }}</td>
-                                <td>{{ $alumni->email }}</td>
-                                <td>{{ $alumni->status }}</td>
+                                <td>{{ $loop->iteration }}</td> <!-- Ganti dengan $alumni->id_user jika menggunakan objek -->
+                                <td>{{ $alumni['nama_alumni'] }}</td>
+                                <td>{{ $alumni['nim'] }}</td>
+                                <td>{{ $alumni['tanggal_lahir'] }}</td>
+                                <td>{{ $alumni['alamat'] }}</td>
+                                <td>{{ $alumni['no_tlp'] }}</td>
+                                <td>{{ $alumni['email'] }}</td>
+                                <td>{{ $alumni['status'] }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -50,12 +50,4 @@ Dashboard
         </div>
 
     </div>
-@endsection
-
-@section('scripts')
-<script>
-    $(document).ready(function() {
-        $('#dataTable').DataTable();
-    });
-</script>
 @endsection

@@ -93,14 +93,14 @@
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                     @if (session('role'))
                         @if (session('role') === 'admin')
-                            {{ session('nama') }} <!-- atau properti lain sesuai kebutuhan -->
+                            {{ session('email') }} <!-- atau properti lain sesuai kebutuhan -->
                         @elseif(session('role') === 'alumni')
-                            {{ session('username') }}
+                            {{ session('email') }}
                             <!-- Pastikan Anda menyimpan nama alumni di session jika diperlukan -->
                         @elseif(session('role') === 'perusahaan')
-                            {{ session('company_name') }} <!-- Simpan nama perusahaan di session jika diperlukan -->
+                            {{ session('email') }} <!-- Simpan nama perusahaan di session jika diperlukan -->
                         @else
-                            {{ session('username') }}
+                            {{ session('email') }}
                         @endif
                     @else
                         <a href="{{ route('login') }}">Login</a>

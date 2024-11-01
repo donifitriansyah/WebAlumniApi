@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAlumniController;
+use App\Http\Controllers\Admin\AdminLowonganController;
+use App\Http\Controllers\Admin\AdminPertanyaanController;
+use App\Http\Controllers\Admin\AdminPerusahaanController;
+use App\Http\Controllers\Admin\AdminTracerController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Auth\AuthController;
@@ -27,6 +32,15 @@ Route::get('dashboard', [DashboardAlumniController::class, 'index'])->name('dash
 
 //Admin
 Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboardAdmin');
+Route::get('alumni-aktif', [AdminAlumniController::class, 'alumniAktif'])->name('alumni-aktif');
+Route::get('alumni-pasif', [AdminAlumniController::class, 'alumniPasif'])->name('alumni-pasif');
+Route::get('perusahaan-diterima', [AdminPerusahaanController::class, 'perusahaanDiterima'])->name('perusahaan-diterima');
+Route::get('perusahaan-divalidasi', [AdminPerusahaanController::class, 'perusahaanDivalidasi'])->name('perusahaan-divalidasi');
+Route::get('lowongan-diterima', [AdminLowonganController::class, 'lowonganDiterima'])->name('lowongan-diterima');
+Route::get('lowongan-divalidasi', [AdminLowonganController::class, 'lowonganDivalidasi'])->name('lowongan-divalidasi');
+Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index');
+Route::get('tracer', [AdminTracerController::class, 'tracer'])->name('tracer.index');
+
 
 // Admin-Berita
 Route::get('berita', [BeritaController::class, 'index'])->name('berita.index');
