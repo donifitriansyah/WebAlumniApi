@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class LoginController extends Controller
@@ -15,53 +14,49 @@ class LoginController extends Controller
     {
         return view('pages.auth.login');
     }
+
     public function login(Request $request)
     {
-        // Validasi data request
+        // Validasi input
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|string',
+            'password' => 'required',
         ]);
 
-        // Mengonsumsi API login
+        // Ambil email dan password dari request
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        // Panggil API untuk login
         $response = Http::post('http://127.0.0.1:10/api/auth/login', [
-            'email' => $request->email,
-            'password' => $request->password,
+            'email' => $email,
+            'password' => $password,
         ]);
 
         if ($response->successful()) {
-            // Proses jika login berhasil
-            $data = $response->json(); // Ambil data JSON dari response
+            // Jika login berhasil
+            $data = $response->json();
+            $token = $data['token'];
+            $user = $data['user'];
+            $role = $data['role'];
 
-            // Simpan token di session
-            session(['token' => $data['token']]); // Simpan token
-
-            // Simpan role di session
-            session(['role' => $data['role']]); // Simpan role
-
-            // Set flash message for success
-            session()->flash('success', 'Login berhasil!');
-
-            // Simpan nama di session sesuai dengan role
-            if ($data['role'] === 'admin') {
-                session(['nama' => $data['user']['username']]); // Simpan username untuk admin
-            } elseif ($data['role'] === 'alumni') {
-                session(['nama' => $data['user']['alumni']['nama_alumni']]); // Simpan nama_alumni untuk alumni
-            } elseif ($data['role'] === 'perusahaan') {
-                session(['nama' => $data['user']['username']]); // Simpan username untuk perusahaan
+            // Simpan token dan informasi pengguna ke session
+            session(['token' => $token, 'user' => $user, 'role' => $role]);
+            if ($role === 'admin') {
+                return redirect()->route('dashboardAdmin')->with('success', $data['message']);
+            } elseif ($role === 'alumni') {
+                return redirect()->route('dashboardAlumni')->with('success', $data['message']);
+            } elseif ($role === 'perusahaan') {
+                return redirect()->route('dashboard.perusahaan')->with('success', $data['message']);
             }
-
-            // Redirect berdasarkan role
-            if ($data['role'] === 'alumni') {
-                return redirect()->route('dashboardAlumni');
-            } elseif ($data['role'] === 'admin') {
-                return redirect()->route('dashboardAdmin'); // Redirect to admin dashboard
-            } elseif ($data['role'] === 'perusahaan') {
-                return redirect()->route('dashboardPerusahaan'); // Redirect to perusahaan dashboard
-            }
+            // Redirect ke dashboard atau halaman lain dengan pesan sukses
+            return redirect()->route('dashboard')->with('success', $data['message']);
+        } elseif ($response->status() === 401) {
+            // Jika tidak terautentikasi
+            return back()->withErrors(['login_error' => 'Unauthorized. Please check your credentials.']);
         } else {
-            // Proses jika login gagal
-            return back()->withErrors(['login_error' => 'Invalid credentials']);
+            // Tangani kesalahan lainnya
+            return back()->withErrors(['login_error' => 'An error occurred. Please try again later.']);
         }
     }
 }
