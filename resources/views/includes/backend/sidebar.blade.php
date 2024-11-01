@@ -39,7 +39,7 @@
                 </li>
                 <li class="nav-item {{ Route::is('berita.index') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('berita.index') }}">
-                        <i class="fas fa-fw fa-news-alt"></i>
+                        <i class="fas fa-newspaper"></i>
                         <span>Berita</span>
                     </a>
                 </li>

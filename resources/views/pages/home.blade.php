@@ -7,12 +7,16 @@
 @section('content')
     <!-- BERITA -->
     <!-- cssassep/bannerBerita2.css | javascript/banner.js -->
-    {{-- @include('includes.frontend.berita') --}}
+    @include('includes.frontend.berita')
 
     <!-- INI BAGIAN LOWONGAN PEKERJAAN -->
-    {{-- @include('includes.frontend.loker') --}}
+    <section id="bagian-job">
+        @include('includes.frontend.loker')
+        {{-- <a href="{{ route('loker') }}" class="btn">Selengkapnya →</a> --}}
+    </section>
+    @include('includes.frontend.berita-rilis')
+
+    @include('includes.frontend.contact')
 
     <!-- INI BAGIAN BERITA -->
-    {{-- @include('includes.frontend.berita-rilis') --}}
-    <pre>{{ json_encode($data, JSON_PRETTY_PRINT) }}</pre>
 @endsection

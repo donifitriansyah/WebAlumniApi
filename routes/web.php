@@ -6,7 +6,13 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Alumni\DashboardAlumniController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/', [HomeController::class, 'indexHome'])->name('home');
+Route::get('/loker', [HomeController::class, 'indexLoker'])->name('loker');
+Route::get('/alumni', [HomeController::class, 'indexAlumni'])->name('alumni');
+
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login.post');
@@ -21,5 +27,12 @@ Route::get('dashboard', [DashboardAlumniController::class, 'index'])->name('dash
 
 //Admin
 Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboardAdmin');
-Route::get('berita', [BeritaController::class, 'index'])->name('berita.index');
 
+// Admin-Berita
+Route::get('berita', [BeritaController::class, 'index'])->name('berita.index');
+Route::post('berita-tambah', [BeritaController::class, 'tambahData'])->name('berita.tambah');
+Route::put('/berita/{id}', [BeritaController::class, 'updateData'])->name('berita.update');
+Route::delete('/berita/delete/{id}', [BeritaController::class, 'deleteData'])->name('berita.delete');
+
+
+// Admin-Berita

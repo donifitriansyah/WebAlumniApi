@@ -34,25 +34,25 @@
                             @forelse ($berita as $beritaItem)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $beritaItem->judul_berita }}</td>
-                                    <td>{{ $beritaItem->tanggal_terbit }}</td>
-                                    <td>{{ $beritaItem->link }}</td>
+                                    <td>{{ $beritaItem['judul_berita'] }}</td>
+                                    <td>{{ $beritaItem['tanggal_terbit'] }}</td>
+                                    <td>{{ $beritaItem['link'] }}</td>
                                     <td>
                                         <!-- View Details Icon -->
                                         <button class="btn btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#detailModal{{ $beritaItem->id_berita }}" title="View Details">
+                                            data-bs-target="#detailModal{{ $beritaItem['id_berita'] }}" title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </button>
 
                                         <!-- Edit Icon as Button -->
                                         <button class="btn btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#editBeritaModal{{ $beritaItem->id_berita }}" title="Edit">
+                                            data-bs-target="#editBeritaModal{{ $beritaItem['id_berita'] }}" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </button>
 
                                         <!-- Delete Icon -->
-                                        <form action="{{ route('berita.destroy', $beritaItem->id_berita) }}"
-                                            method="POST" style="display:inline;"
+                                        <form action="{{ route('berita.delete', $beritaItem['id_berita']) }}" method="POST"
+                                            style="display:inline;"
                                             onsubmit="return confirm('Anda yakin ingin menghapus?');">
                                             @csrf
                                             @method('DELETE')
@@ -60,6 +60,7 @@
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
+
                                     </td>
                                 </tr>
                             @empty
@@ -73,7 +74,7 @@
             </div>
         </div>
 
-         @include('includes.backend.modal.admin.modal_berita')
+        @include('includes.backend.modal.admin.modal_berita')
 
 
     </div>
@@ -89,17 +90,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('berita.tambah') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="judul_berita" class="form-label">Judul Berita</label>
-                            <input type="text" class="form-control" id="judul_berita" name="judul_berita"
-                                required>
+                            <input type="text" class="form-control" id="judul_berita" name="judul_berita" required>
                         </div>
                         <div class="mb-3">
                             <label for="tanggal_terbit" class="form-label">Tanggal Berita</label>
-                            <input type="date" class="form-control" id="tanggal_terbit" name="tanggal_terbit"
-                                required>
+                            <input type="date" class="form-control" id="tanggal_terbit" name="tanggal_terbit" required>
                         </div>
                         <div class="mb-3">
                             <label for="deskripsi_berita" class="form-label">Deskripsi</label>
@@ -108,8 +107,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="link" class="form-label">Link</label>
-                            <input type="text" class="form-control" id="link" name="link"
-                                required>
+                            <input type="text" class="form-control" id="link" name="link" required>
                         </div>
                         <div class="form-group">
                             <label for="gambar">Gambar</label>
@@ -124,5 +122,48 @@
             </div>
         </div>
     </div>
-
+    @if ($errors->has('delete_error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: "{{ implode(', ', $errors->get('delete_error')) }}",
+                showConfirmButton: true,
+                timer: 3000 // Opsional: secara otomatis menutup alert setelah 3 detik
+            });
+        </script>
+    @endif
+    @if ($errors->has('add_error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: "{{ implode(', ', $errors->get('add_error')) }}",
+                showConfirmButton: true,
+                timer: 3000 // Opsional: secara otomatis menutup alert setelah 3 detik
+            });
+        </script>
+    @endif
+    @if ($errors->has('update_error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: "{{ implode(', ', $errors->get('update_error')) }}",
+                showConfirmButton: true,
+                timer: 3000 // Opsional: secara otomatis menutup alert setelah 3 detik
+            });
+        </script>
+    @endif
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                showConfirmButton: true,
+                timer: 3000
+            });
+        </script>
+    @endif
 @endsection
